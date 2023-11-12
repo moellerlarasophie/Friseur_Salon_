@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>body {font-family: Arial, Helvetica, sans-serif;}
+
+
+  .Zurücksetzenbox {
+    width: 500px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    margin-top: 40px;
+    color: black;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: center;
+  }
+
+  .Zurücksetzenbox h1 {
+    font-size: 24px;
+    color: black;
+    margin: 20px auto 10px;
+  }
+
+  .Zurücksetzenbox label {
+    display: block;
+    text-align: left;
+    padding-right: 10px;
+  }
+
+  .Zurücksetzenbox button {
+    width: auto;
+    padding: 10px 20px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    display: block;
+  }
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+width: 100%;
+padding: 12px 20px;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+button {
+background-color: #04AA6D;
+color: white;
+padding: 10px 20px;
+margin: 8px 0;
+border: none;
+cursor: pointer;
+width: 100%;
+}
+
+button:hover {
+opacity: 0.8;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+width: auto;
+padding: 10px 18px;
+background-color: #f44336;
+}
+
+
+.container {
+padding: 16px;
+}
+
+span.psw {
+float: right;
+padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+display: none; /* Hidden by default */
+position: fixed; /* Stay in place */
+z-index: 1; /* Sit on top */
+left: 0;
+top: 0;
+width: 100%; /* Full width */
+height: 100%; /* Full height */
+overflow: auto; /* Enable scroll if needed */
+background-color: rgb(0,0,0); /* Fallback color */
+background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+background-color: #fefefe;
+margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+border: 1px solid #888;
+width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+position: absolute;
+right: 25px;
+top: 0;
+color: #000;
+font-size: 35px;
+font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+color: red;
+cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+-webkit-animation: animatezoom 0.6s;
+animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+from {-webkit-transform: scale(0)}
+to {-webkit-transform: scale(1)}
+}
+
+@keyframes animatezoom {
+from {transform: scale(0)}
+to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+span.psw {
+display: block;
+float: none;
+}
+.cancelbtn {
+width: 100%;
+}
+}
+.navbar ul{
+list-style-type: none;
+background-color: #04AA6D;
+padding: opx;
+margin: 0px;
+overflow: hidden;
+}
+.navbar button{
+background-color: #04AA6D;
+color: white;
+padding: 10px 20px;
+margin: 8px 0;
+border: none;
+cursor: pointer;
+width: 100%;
+}
+.navbar li{
+float: left;
+
+</style>
+  <title>Pin zurücksetzen</title>
+</head>
+<body>
+<nav class="navbar">
+  <ul>
+    <li><button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Termin buchen</button>
+    <li><button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Mitarbeiter erstellen</button></li>
+    <li><button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Mitarbeiter löschen</button></li>
+    <li><button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Logout</button></li>
+  </ul>
+</nav>
+
+
+<div class="Zurücksetzenbox">
+    <h1>Pin zurücksetzen</h1>
+  <label>Mitarbeiternummer:</label>
+    <input type="text" title="Ihre Mitarbeiternummer eingeben." placeholder="Mitarbeiternummer" minlength="4" maxlength="4">
+  <label>Neuer Pin:</label>
+    <input type="password" title="Der Pin muss aus 4 Ziffern bestehen." placeholder="Neuer Pin" minlength="4" maxlength="4">
+  <label>Pin wiederholen:</label>
+    <input type="password" placeholder="Pin wiederholen" minlength="4" maxlength="4">
+    <button>Bestätigen</button>
+
+</div>
+
+</body>
+</html>

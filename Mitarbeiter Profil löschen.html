@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>body {font-family: Arial, Helvetica, sans-serif;}
+
+
+  .Loeschenbox {
+    width: 500px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    margin-top: 40px;
+    color: black;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .Loeschenbox h1 {
+    font-size: 24px;
+    color: black;
+    text-align: center;
+  }
+
+  .Loeschenbox label {
+    display: block;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .Loeschenbox select {
+    width: 480px;
+    height: 40px;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .Loeschenbox button {
+    width: auto;
+    padding: 10px 20px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    display: block;
+  }
+
+  .Bestätigenbox {
+    display: none;
+  }
+
+  .confirmCheckbox:checked ~ #Bestätigenbox {
+  display: block;
+}
+
+.button-like-label {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #04AA6D;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.button-like-label:hover {
+  background-color: #0E7C4B;
+}
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+width: 100%;
+padding: 12px 20px;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+button {
+background-color: #04AA6D;
+color: white;
+padding: 10px 20px;
+margin: 8px 0;
+border: none;
+cursor: pointer;
+width: 100%;
+}
+
+button:hover {
+opacity: 0.8;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+width: auto;
+padding: 10px 18px;
+background-color: #f44336;
+}
+
+
+.container {
+padding: 16px;
+}
+
+span.psw {
+float: right;
+padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+display: none; /* Hidden by default */
+position: fixed; /* Stay in place */
+z-index: 1; /* Sit on top */
+left: 0;
+top: 0;
+width: 100%; /* Full width */
+height: 100%; /* Full height */
+overflow: auto; /* Enable scroll if needed */
+background-color: rgb(0,0,0); /* Fallback color */
+background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+background-color: #fefefe;
+margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+border: 1px solid #888;
+width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+position: absolute;
+right: 25px;
+top: 0;
+color: #000;
+font-size: 35px;
+font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+color: red;
+cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+-webkit-animation: animatezoom 0.6s;
+animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+from {-webkit-transform: scale(0)}
+to {-webkit-transform: scale(1)}
+}
+
+@keyframes animatezoom {
+from {transform: scale(0)}
+to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+span.psw {
+display: block;
+float: none;
+}
+.cancelbtn {
+width: 100%;
+}
+}
+.navbar ul{
+list-style-type: none;
+background-color: #04AA6D;
+padding: opx;
+margin: 0px;
+overflow: hidden;
+}
+.navbar button{
+background-color: #04AA6D;
+color: white;
+padding: 10px 20px;
+margin: 8px 0;
+border: none;
+cursor: pointer;
+width: 100%;
+}
+.navbar li{
+float: left;
+
+</style>
+  <title>Mitarbeiter Profil löschen</title>
+</head>
+<body>
+<nav class="navbar">
+  <ul>
+    <li><button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Termin buchen</button>
+    <li><button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Mitarbeiter erstellen</button></li>
+    <li><button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Mitarbeiter löschen</button></li>
+    <li><button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Logout</button></li>
+  </ul>
+</nav>
+
+
+<div class="Loeschenbox">
+  <h1>Mitarbeiter Profil löschen</h1>
+  <label for="Mitarbeiter">Wählen Sie einen Mitarbeiter:</label>
+  <select name="Mitarbeiter" id="Mitarbeiter">
+    <option value="Mitarbeiter 1">Mitarbeiter 1</option>
+    <option value="Mitarbeiter 2">Mitarbeiter 2</option>
+    <option value="Mitarbeiter 3">Mitarbeiter 3</option>
+    <option value="Mitarbeiter 4">Mitarbeiter 4</option>
+  </select>
+  <label for="confirmCheckbox" class="button-like-label" id="confirmLabel">Bestätigen</label>
+  <input type="checkbox" id="confirmCheckbox" class="confirmCheckbox" style="display: none;">
+
+  <div class="Bestätigenbox" id="Bestätigenbox">
+    <p>Sind Sie sicher, dass Sie den Mitarbeiter löschen möchten?</p>
+    <button> Ja, löschen </button>
+    <button> Abbrechen </button>
+  </div>
+</div>
+
+
+
+</body>
+</html>
