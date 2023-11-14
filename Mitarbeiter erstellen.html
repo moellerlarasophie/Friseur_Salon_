@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Docu ment</title>
+    <link href="style.css" rel="stylesheet" />
+    <script>src="index.js"</script>
+    <script>
+  function showSuccessMessage() {
+    var successMessage = document.getElementById("success-message");
+    successMessage.style.display = "block";
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var createButton = document.querySelector(".btn-success");
+    createButton.addEventListener("click", showSuccessMessage);
+  });
+</script>
+  </head>
+  <body>
+    <section
+      class="vh-100 bg-image"
+      style="
+        background-image: url('https://www.pexels.com/photo/close-up-photography-of-colored-pencils-743986/');
+      "
+    >
+      <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+        <div class="container h-100">
+          <div
+            class="row d-flex justify-content-center align-items-center h-100"
+          >
+            <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+              <div class="card" style="border-radius: 15px">
+                <div class="card-body p-5">
+                  <h2 class="text-uppercase text-center mb-5">
+                    Mitarbeiter erstellen
+                  </h2>
+
+                  <form>
+                    <div class="form-outline mb-4">
+                      <input
+                        type="text"
+                        id="form3Example1cg"
+                        class="form-control form-control-lg"
+                      />
+                      <label class="form-label" for="form3Example1cg"
+                        >vollständige Name</label
+                      >
+                    </div>
+
+                    <div class="form-outline mb-4">
+                      <input
+                        type="email"
+                        id="form3Example3cg"
+                        class="form-control form-control-lg"
+                      />
+                      <label class="form-label" for="form3Example3cg"
+                        >Leistungen</label
+                      >
+                    </div>
+
+                    <div class="form-outline mb-4">
+                      <input
+                        type="password"
+                        id="form3Example4cg"
+                        class="form-control form-control-lg"
+                      />
+                      <label class="form-label" for="form3Example4cg"
+                        >Mitarbeiter Nummer</label
+                      >
+                    </div>
+
+                    <div class="form-outline mb-4">
+                      <input
+                        type="password"
+                        id="form3Example4cdg"
+                        class="form-control form-control-lg"
+                      />
+                      <label class="form-label" for="form3Example4cdg"
+                        >Pin</label
+                      >
+                    </div>
+
+                    <div class="form-check d-flex justify-content-center mb-5">
+                      <input
+                        class="form-check-input me-2"
+                        type="checkbox"
+                        value=""
+                        id="form2Example3cg"
+                      />
+                      <label class="form-check-label" for="form2Example3g">
+                        Ich stimme den Nutzungsbedingungen zu.
+                        <a href="#!" class="text-body"
+                          ><u>Nutzungsbedingungen</u></a
+                        >
+                      </label>
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                      <button
+                        type="button"
+                        class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"
+                      >
+                        erstellen
+                      </button>
+                      <div id="success-message" class="alert alert-success" style="display: none;">
+                        Mitarbeiter erfolgreich erstellt!
+                            </div>
+                        </div>
+                       </div>
+                    </p>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
