@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+  <meta charset="UTF-8">
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .container {
+      padding: 16px;
+    }
+
+    /* The Modal (background) */
+    .modal {
+      display: none; /* Hidden by default */
+      position: absolute; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0, 0, 0); /* Fallback color */
+      background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+      padding-top: 60px;
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+      border: 1px solid #888;
+      width: 80%; /* Could be more or less, depending on screen size */
+    }
+
+    .navbar ul {
+      list-style-type: none;
+      background-color: #04AA6D;
+      padding: 0px;
+      margin: 0px;
+      overflow: hidden;
+    }
+
+    .navbar button {
+      background-color: #04AA6D;
+      color: white;
+      padding: 10px 20px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    .navbar button:hover {
+      background-color: #038153;
+    }
+
+    .navbar li {
+      float: left;
+    }
+
+    #calendar {
+      border: 2px solid #ccc;
+      max-width: 1500px;
+      margin: 50px auto;
+      padding: 10px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #calendar header {
+        align-items: center;
+        font-size: 24px;
+    }
+
+    #calendar header span {
+      float: left;
+      margin: 10px;
+    }
+
+    #calendar header button {
+      font-size: 16px;
+      padding: 10px 20px;
+      margin: 8px;
+      margin-right: 0px;
+      margin-top: 0px;
+      color: white;
+      background-color: #04AA6D;
+      width: auto;
+      float: right;
+      border: none;
+    }
+
+    #calendar header button:hover {
+      background-color: #038153;
+    }
+
+    #calendar table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    #calendar td:hover {
+        background-color: #f0f0f0;
+    }
+
+    #calendar td.current-day, #calendar th.current-day {
+      background-color: #04AA6D;
+      color: white;
+      font-weight: bold;
+    }
+
+    #calendar td.current-day:hover {
+      background-color: #038153;
+    }
+
+    #calendar th.weekend, #calendar td.weekend {
+      background-color: #cecece;
+      color: white;
+      font-weight: bold;
+    }
+
+    #calendar td.weekend:hover {
+      background-color: #c5c5c5;
+    }
+
+    #calendar table button {
+      background-color: transparent;
+      color: #000;
+      cursor: pointer;
+      width: 100%;
+      padding: 25px 0;
+      border: transparent;
+    }
+
+    #calendar th, #calendar td {
+        text-align: center;
+        width: 10%;
+        height: 50px;
+        border: 2px solid #ddd;
+    }
+  </style>
+  <title>Eingeloggt</title>
+</head>
+<body>
+  <nav class="navbar">
+    <ul>
+      <li><button onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Termin buchen</button></li>
+      <li><button onclick="document.getElementById('id03').style.display='block'" style="width:auto;">Mitarbeiter erstellen</button></li>
+      <li><button onclick="document.getElementById('id04').style.display='block'" style="width:auto;">Mitarbeiter löschen</button></li>
+      <li><button onclick="document.getElementById('id05').style.display='block'" style="width:auto;">Logout</button></li>
+    </ul>
+  </nav>
+  <div id="calendar"></div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      // Verweis auf <div id="calendar">
+      const calendar = document.getElementById("calendar");
+      // Die Monate
+      const monthNames = [
+            "Januar", "Februar", "März", "April", "Mai", "Juni",
+            "Juli", "August", "September", "Oktober", "November", "Dezember"
+        ];
+
+      // Globale Variablen
+      let currentWeekStart = 1;
+      let currentView = '';
+      let currentDate = new Date();
+      let currentYear = currentDate.getFullYear();
+      let currentMonth = currentDate.getMonth();
+      let currentDay = currentDate.getDate();
+      let appointments = [];
+      let displayedDay;
+
+
+      // ---Hier können Termine eingespielt werden---
+      // Schema: Date(Jahr, Monat - 1, Tag) | Stunde Beginn | Minute Beginn | Stunde Ende | Minute Ende | Name
+      addAppointment(new Date(2023, 10, 15), 13, 0, 15, 30, 'Max Mustermann');
+      addAppointment(new Date(2023, 10, 15), 15, 0, 15, 30, 'Marie Musterfrau');
+      addAppointment(new Date(2023, 10, 15), 17, 30, 18, 30, 'Ryan Gossling');
+      //addAppointment(new Date(2023, 10, 15), 15, 30, 18, 0, 'Katy Perry');
+
+      // Erstellt die Ansicht für den gesamten Monat
+      function generateMonthView(year, month) {
+        currentView = 'month';
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        const daysInMonth = lastDay.getDate();
+        const firstDayOfWeek = (firstDay.getDay() + 6) % 7;
+
+        // Erstellt den Header
+        // changeView() übergibt, welche Ansicht aktiv ist, damit andere Funktionen wie next() wissen, welche function ausgeführt werden muss
+        const header = `<header>
+                            <span>${monthNames[month]} ${year}</span>
+                            <button onclick="next()">&#8250;</button>
+                            <button onclick="prev()">&#8249;</button>
+                            <button onclick="changeView('day')">Tag</button>
+                            <button onclick="changeView('week')">Woche</button>
+                            <button onclick="changeView('month')">Monat</button>
+                        </header>`;
+        
+        // Die Wochentage (Sonntag wird grau markiert)
+        let table = `<table>
+                        <tr>
+                            <th>Mo</th>
+                            <th>Di</th>
+                            <th>Mi</th>
+                            <th>Do</th>
+                            <th>Fr</th>
+                            <th>Sa</th>
+                            <th class='weekend'>So</th>
+                        </tr>
+                        <tr>`;
+
+        let day = 1;
+        
+        // Schleife zum überprüfen, ob der Tag sich noch im Monat befindet
+        for (let i = 0; i < 6 * 7; i++) {
+          if (i % 7 === 0) {
+            if (day > daysInMonth) {
+                break;
+            }
+          table += "<tr>";
+          }
+
+          let cellClass = '';
+          // Überprüft, ob der Tag ein Sonntag ist
+          if (i % 7 === 6) {
+            cellClass += 'weekend'
+          }
+
+          // Erstellt die richtige Reihenfolge und färbt die Tage nach aktuellen Tag und Sonntag
+          // Der aktuelle Tag überschreibt die cellClass, auch wenn es ein Sonntag ist
+          if (i >= firstDayOfWeek && day <= daysInMonth) {
+            if (day === currentDate.getDate() && currentMonth === currentDate.getMonth()) {
+              cellClass = '';
+              table += `<td class="${cellClass}${day === currentDate.getDate() 
+                && currentMonth === currentDate.getMonth() 
+                && currentYear === currentDate.getFullYear() 
+                ? 'current-day' : ''}"><button onclick="changeToDayView(${day})">${day}</button></td>`;
+            } else {
+              table += `<td class="${cellClass}${day === currentDate.getDate()
+                && currentMonth === currentDate.getMonth() 
+                && currentYear === currentDate.getFullYear() 
+                ? 'current-day' : ''}"><button onclick="changeToDayView(${day})">${day}</button></td>`;
+            }
+            day++;
+          } else {
+            table += "<td></td>";
+          }
+        }
+        // Schließt die Tabelle
+        table += "</tr></table>";
+
+        calendar.innerHTML = header + table;
+      }
+
+      // Generiert die Wochenansicht (Unvollständig)
+      window.generateWeekView = function (year, month) {
+        currentView = 'week';
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        const daysInMonth = lastDay.getDate();
+        const firstDayOfWeek = (firstDay.getDay() + 6) % 7;
+
+        // Berechnet die aktuelle Kalenderwoche
+        const getISOWeek = function (date) {
+          const year = new Date(date.getFullYear(), 0, 4);
+          const days = Math.floor((date - year) / (24 * 60 * 60 * 1000)) + 1;
+          const week = Math.ceil(days / 7);
+          return week + 1;
+        };
+        
+        // Gleicher Header, wie bei generateMonthView(), nur mit zusätzlicher Kalenderwoche
+        const header = `<header>
+                            <span>${monthNames[month]} ${year} - KW ${getISOWeek(new Date(year, month, currentWeekStart))}</span>
+                            <button onclick="next()">&#8250;</button>
+                            <button onclick="prev()">&#8249;</button>
+                            <button onclick="changeView('day')">Tag</button>
+                            <button onclick="changeView('week')">Woche</button>
+                            <button onclick="changeView('month')">Monat</button>
+                        </header>`;
+                      
+        // Oberste Reihe der Wochenansicht
+        // Färbt den aktuellen Tag 'current-day'
+        // Wenn nicht Sonntag ist, wird Sonntag 'weekend' gefärbt
+        let table = `<table>
+                        <tr>
+                          <th style="width: 8%">Zeit</th>
+                          <th class="${currentDate.getDay() === 1 ? 'current-day' : ''}">Mo</th>
+                          <th class="${currentDate.getDay() === 2 ? 'current-day' : ''}">Di</th>
+                          <th class="${currentDate.getDay() === 3 ? 'current-day' : ''}">Mi</th>
+                          <th class="${currentDate.getDay() === 4 ? 'current-day' : ''}">Do</th>
+                          <th class="${currentDate.getDay() === 5 ? 'current-day' : ''}">Fr</th>
+                          <th class="${currentDate.getDay() === 6 ? 'current-day' : ''}">Sa</th>
+                          <th class="${currentDate.getDay() === 0 ? 'current-day' : 'weekend'}">So</th>
+                        </tr>`;
+        
+        // Erstellt die Wochenansicht von 7 bis 20 Uhr
+        // Färbt alle Felder unter Sonntag in 'weekend'
+        for (let hour = 7; hour <= 20; hour++) {
+            table += `<tr><td>${hour}:00</td>`;
+            for (let i = 0; i < 7; i++) {
+              let day = currentWeekStart + i;
+              let cellClass = (6 === i) ? 'weekend' : '';
+              table += `<td class="${cellClass}"></td>`;
+            }
+            table += "</tr>";
+        }
+        // Schließt die Tabelle
+        table += "</table>";
+      
+        calendar.innerHTML = header + table;
+      }
+
+        // Generiert die Tagesansicht
+      window.generateDayView = function (year, month, day) {
+        currentView = 'day';
+        displayedDay = day;
+        
+        // Der Header zeigt hier das aktuelle Datum "Tag-Monat-Jahr"
+        // Hier gibt es kein <tr></tr>!
+        const header = `<header>
+                            <span>${day}. ${monthNames[month]} ${year}</span>
+                            <button onclick="next()">&#8250;</button>
+                            <button onclick="prev()">&#8249;</button>
+                            <button onclick="changeView('day')">Tag</button>
+                            <button onclick="changeView('week')">Woche</button>
+                            <button onclick="changeView('month')">Monat</button>
+                        </header>`;
+                      
+        // Variablen
+        let table = `<table>`;
+        let prevAppointmentsForHour = [];
+        let maxAppointments = 0;
+
+        // Überprüft für den Tag, wie viele Termine maximal gleichzeitig existieren
+        // Dadurch wird in der nächsten Schleife sichergestellt, dass die Tabelle einheitlich bleibt und keine Felder breiter oder kürzer sind
+        for (let hour = 7; hour <= 20; hour++) {
+          if (prevAppointmentsForHour.length < getAppointmentsForHour(year, month, displayedDay, hour).length) {
+            prevAppointmentsForHour = getAppointmentsForHour(year, month, displayedDay, hour);
+            maxAppointments = prevAppointmentsForHour.length;
+          }
+        }
+        // Erstellt die Tabelle für die Tagesansicht
+        for (let hour = 7; hour <= 20; hour++) {
+          // Array mit allen Terminen
+          const appointmentsForHour = getAppointmentsForHour(currentYear, currentMonth, displayedDay, hour);
+
+          let appointmentHTML = '';
+            
+
+          // Hier wird sichergestellt, dass es in jeder Reihe exakt gleich viele Felder gibt
+          for (let i = 0; i < maxAppointments; i++) {
+            const appointment = appointmentsForHour[i];
+            const startTime = appointment ? `${appointment.startHour}:${appointment.startMinute}` : '';
+            const endTime = appointment ? `${appointment.endHour}:${appointment.endMinute}` : '';
+            const appointmentName = appointment ? appointment.name : '';
+            if (startTime === '') {
+              appointmentHTML += '<td style="width: auto"></td>';
+            } else {
+              appointmentHTML += `<td style="width: auto">${appointmentName}<br>${startTime} - ${endTime}</td>`;
+            }
+          }
+          
+          if (maxAppointments === 0) {
+            appointmentHTML = '<td style="width: auto"></td>';
+          }
+          
+          table += `<tr>
+                      <td style="width: 8%">${hour}:00</td>
+                      ${appointmentHTML}
+                    </tr>`;
+                  
+          prevAppointmentsForHour = appointmentsForHour;
+        }
+        
+        // Schließt die Tabelle
+        table += "</table>";
+
+        calendar.innerHTML = header + table;
+      };
+
+      // Schaut, welche Ansicht aktiv ist und führt die jeweilige function() aus
+      window.next = function () {
+        if (currentView === 'month') {
+          nextMonth();
+        } else if (currentView === 'week') {
+          nextWeek();
+        } else if (currentView === 'day') {
+          nextDay(currentYear, currentMonth, displayedDay);
+        }
+      };
+
+      // Schaut, welche Ansicht aktiv ist und führt die jeweilige function() aus
+      window.prev = function () {
+        if (currentView === 'month') {
+          prevMonth();
+        } else if (currentView === 'week') {
+          prevWeek();
+        } else if (currentView === 'day') {
+          prevDay(currentYear, currentMonth, displayedDay);
+        }
+      };
+
+      // Geht einen Monat zurück
+      window.prevMonth = function () {
+          currentYear = (currentMonth === 0) ? currentYear - 1 : currentYear;
+          currentMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
+          generateMonthView(currentYear, currentMonth);
+      }
+
+      // Geht einen Monat vor
+      window.nextMonth = function () {
+          currentYear = (currentMonth === 11) ? currentYear + 1 : currentYear;
+          currentMonth = (currentMonth + 1) % 12;
+          generateMonthView(currentYear, currentMonth);
+      }
+
+      // Geht eine Woche vor
+      window.nextWeek = function () {
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        const lastDayOfWeek = (new Date(currentYear, currentMonth, daysInMonth).getDay() + 6) % 7;
+        const totalDays = daysInMonth + lastDayOfWeek;
+          
+        if (currentWeekStart + 7 <= totalDays) {
+            currentWeekStart += 7;
+        } else {
+            currentMonth = (currentMonth + 1) % 12;
+            currentYear = (currentMonth === 0) ? currentYear + 1 : currentYear;
+            currentWeekStart = 1;
+        }
+      
+        generateWeekView(currentYear, currentMonth);
+      }
+
+      // Geht eine Woche zurück
+      window.prevWeek = function () {
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        const lastDayOfWeek = (new Date(currentYear, currentMonth, daysInMonth).getDay() + 6) % 7;
+        const totalDays = daysInMonth + lastDayOfWeek;
+
+        if (currentWeekStart - 7 >= 1) {
+          currentWeekStart -= 7;
+        } else {
+          currentMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+          currentYear = currentMonth === 11 ? currentYear - 1 : currentYear;
+          const daysInPrevMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+          currentWeekStart = daysInPrevMonth - lastDayOfWeek;
+        }
+        generateWeekView(currentYear, currentMonth);
+      }
+
+      // Geht einen Tag vor
+      window.nextDay = function (currentYear, currentMonth, currentDisplayedDay) {
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+        if (currentDisplayedDay < daysInMonth) {
+          currentDisplayedDay++;
+        } else {
+          currentDisplayedDay = 1;
+          nextMonth();
+        }
+        generateDayView(currentYear, currentMonth, currentDisplayedDay);
+      };
+
+      // Geht einen Tag zürck
+      window.prevDay = function (currentYear, currentMonth, currentDisplayedDay) {
+        const daysInMonth = new Date(currentYear, currentMonth, 0).getDate();
+
+        if (currentDisplayedDay > 1) {
+          currentDisplayedDay--;
+        } else {
+          currentDisplayedDay = daysInMonth;
+          prevMonth();
+        }
+        generateDayView(currentYear, currentMonth, currentDisplayedDay);
+      }
+
+      // Ändert die Ansicht, je nach dem, ob "Monat", "Woche" oder "Tag" geklickt wurde
+      window.changeView = function (view) {
+        currentYear = currentDate.getFullYear();
+        currentMonth = currentDate.getMonth();
+        currentDay = currentDate.getDate();
+        if (view === 'week') {
+          generateWeekView(currentYear, currentMonth);
+        } else if (view === 'day') {
+          generateDayView(currentYear, currentMonth, currentDay);
+        } else if (view === 'month') {
+          generateMonthView(currentYear, currentMonth);
+        }
+      }
+
+      // Basically eine Klasse für Termine
+      function addAppointment(date, startHour, startMinute, endHour, endMinute, name) {
+        const newAppointment = {
+          date: date,
+          startHour: startHour,
+          startMinute: formatMinutes(startMinute),
+          endHour: endHour,
+          endMinute: formatMinutes(endMinute),
+          name: name
+        };
+        appointments.push(newAppointment);
+      }
+
+      // Schaut, wie viele Termine in einer bestimmten Stunde eines Tages sind
+      function getAppointmentsForHour(year, month, day, hour) {
+        const selectedDate = new Date(year, month, day, hour);
+        const matchingAppointments = [];
+
+        for (const appointment of appointments) {
+          const appointmentDate = new Date(appointment.date);
+        
+          if (
+            appointmentDate.getFullYear() === selectedDate.getFullYear() &&
+            appointmentDate.getMonth() === selectedDate.getMonth() &&
+            appointmentDate.getDate() === selectedDate.getDate() &&
+            appointment.startHour <= selectedDate.getHours() &&
+            appointment.endHour >= selectedDate.getHours()
+          ) {
+            matchingAppointments.push(appointment);
+          }
+        }
+      
+        return matchingAppointments;
+      }
+
+      // Fügt eine 0 vor die Minute, wenn sie < 10 ist
+      // let i = 00 ist nicht möglich
+      function formatMinutes(minutes) {
+        return (minutes < 10 ? '0' : '') + minutes;
+      }
+
+      window.changeToDayView = function (day) {
+        generateDayView(currentYear, currentMonth, day);
+      }
+
+      // Erstellt die Tagesansicht als Standart
+      generateDayView(currentYear, currentMonth, currentDay);
+    });
+  </script>
+</body>
+</html>
