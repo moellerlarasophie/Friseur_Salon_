@@ -14,7 +14,7 @@
     color: black;
     margin-left: auto;
     margin-right: auto;
-    display: flex;
+    display: block;
     flex-direction: column;
     align-items: center;
   }
@@ -38,39 +38,43 @@
     margin-bottom: 10px;
   }
 
-  .Loeschenbox button {
-    width: auto;
-    padding: 10px 20px;
-    margin: 0 auto;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    font-size: 16px;
-    display: block;
-  }
+    .Bestätigenbox {
+      width: 500px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+      margin-top: 40px;
+      color: black;
+      margin-left: auto;
+      margin-right: auto;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+    }
 
-  .Bestätigenbox {
-    display: none;
-  }
+.Bestätigung {
+      width: 500px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+      margin-top: 40px;
+      color: black;
+      margin-left: auto;
+      margin-right: auto;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
 
-  .confirmCheckbox:checked ~ #Bestätigenbox {
-  display: block;
-}
-
-.button-like-label {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #04AA6D;
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-right: 10px;
-  font-size: 16px;
-}
-
-.button-like-label:hover {
-  background-color: #0E7C4B;
-}
+    .Bestätigung .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
 /* Full-width input fields */
 input[type=text], input[type=password] {
@@ -84,13 +88,16 @@ box-sizing: border-box;
 
 /* Set a style for all buttons */
 button {
-background-color: #04AA6D;
-color: white;
-padding: 10px 20px;
-margin: 8px 0;
-border: none;
-cursor: pointer;
-width: 100%;
+    background-color: #04AA6D;
+    color: white;
+    width: auto;
+    padding: 10px 20px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    display: block;
+    border: none;
 }
 
 button:hover {
@@ -200,19 +207,44 @@ float: left;
 
 </style>
   <title>Mitarbeiter Profil löschen</title>
+
+  <script>
+      function openDeleteModal() {
+        document.getElementById('Bestätigenbox').style.display = 'block';
+        document.getElementById('Loeschenbox').style.display = 'none';
+        document.getElementById('Bestätigung').style.display = 'none';
+      }
+
+      function closeDeleteModal() {
+        document.getElementById('Bestätigenbox').style.display = 'none';
+        document.getElementById('Loeschenbox').style.display = 'block';
+        document.getElementById('Bestätigung').style.display = 'none';
+      }
+
+      function message() {
+        document.getElementById('Bestätigenbox').style.display = 'none';
+        document.getElementById('Loeschenbox').style.display = 'none';
+        document.getElementById('Bestätigung').style.display = 'block';
+      }
+
+      function closeConfirmation() {
+      document.getElementById('Bestätigung').style.display = 'none';
+      document.getElementById('Loeschenbox').style.display = 'block';
+      document.getElementById('Bestätigenbox').style.display = 'none';
+    }
+  </script>
 </head>
 <body>
 <nav class="navbar">
   <ul>
-    <li><button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Termin buchen</button>
-    <li><button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Mitarbeiter erstellen</button></li>
-    <li><button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Mitarbeiter löschen</button></li>
-    <li><button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Logout</button></li>
+    <li><button onclick="openModal('Termin buchen')">Termin buchen</button></li>
+    <li><button onclick="openModal('Mitarbeiter erstellen')">Mitarbeiter erstellen</button></li>
+    <li><button onclick="openDeleteModal()">Mitarbeiter löschen</button></li>
+    <li><button onclick="openModal('Logout')">Logout</button></li>
   </ul>
 </nav>
 
-
-<div class="Loeschenbox">
+<div class="Loeschenbox" id="Loeschenbox">
   <h1>Mitarbeiter Profil löschen</h1>
   <label for="Mitarbeiter">Wählen Sie einen Mitarbeiter:</label>
   <select name="Mitarbeiter" id="Mitarbeiter">
@@ -221,17 +253,19 @@ float: left;
     <option value="Mitarbeiter 3">Mitarbeiter 3</option>
     <option value="Mitarbeiter 4">Mitarbeiter 4</option>
   </select>
-  <label for="confirmCheckbox" class="button-like-label" id="confirmLabel">Bestätigen</label>
-  <input type="checkbox" id="confirmCheckbox" class="confirmCheckbox" style="display: none;">
+
+  <button onclick="openDeleteModal()">Bestätigen</button>
+</div>
 
   <div class="Bestätigenbox" id="Bestätigenbox">
     <p>Sind Sie sicher, dass Sie den Mitarbeiter löschen möchten?</p>
-    <button> Ja, löschen </button>
-    <button> Abbrechen </button>
+    <button onclick="message()">Ja, löschen</button>
+    <button onclick="closeDeleteModal()">Abbrechen</button>
   </div>
+
+<div class="Bestätigung" id="Bestätigung">
+  <div class="close" onclick="closeConfirmation()">&times;</div>
+  <p>Mitarbeiter wurde gelöscht!</p>
 </div>
-
-
-
 </body>
 </html>
