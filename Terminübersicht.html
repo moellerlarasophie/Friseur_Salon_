@@ -1,55 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head> 
+<head>
   <meta charset="UTF-8">
   <style>
+
     body {
       font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      padding: 0;
     }
 
-    .container {
-      padding: 16px;
-    }
 
-    /* The Modal (background) */
-    .modal {
-      display: none; /* Hidden by default */
-      position: absolute; /* Stay in place */
-      z-index: 1; /* Sit on top */
-      left: 0;
-      top: 0;
-      width: 100%; /* Full width */
-      height: 100%; /* Full height */
-      overflow: auto; /* Enable scroll if needed */
-      background-color: rgb(0, 0, 0); /* Fallback color */
-      background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-      padding-top: 60px;
-    }
-
-    /* Modal Content/Box */
-    .modal-content {
-      background-color: #fefefe;
-      margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
-      border: 1px solid #888;
-      width: 80%; /* Could be more or less, depending on screen size */
-    }
-
+    /* Stil für die Navbar */
     .navbar ul {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
       list-style-type: none;
       background-color: #04AA6D;
-      padding: 0px;
-      margin: 0px;
+      padding: 0;
+      margin: 0;
       overflow: hidden;
+    }
+
+    .navbar li {
+      float: left;
     }
 
     .navbar button {
       background-color: #04AA6D;
       color: white;
+      width: auto;
       padding: 10px 20px;
       margin: 8px 0;
       border: none;
       cursor: pointer;
-      width: 100%;
+      display: block;
+      border-radius: 5px;
       font-size: 16px;
     }
 
@@ -57,22 +45,18 @@
       background-color: #038153;
     }
 
-    .navbar li {
-      float: left;
-    }
-
     #calendar {
       border: 2px solid #ccc;
       max-width: 1500px;
-      margin: 50px auto;
+      margin: 80px auto;
       padding: 10px;
       background-color: #fff;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
     #calendar header {
-        align-items: center;
-        font-size: 24px;
+      align-items: center;
+      font-size: 24px;
     }
 
     #calendar header span {
@@ -86,6 +70,7 @@
       margin: 8px;
       margin-right: 0px;
       margin-top: 0px;
+      border-radius: 5px;
       color: white;
       background-color: #04AA6D;
       width: auto;
@@ -98,12 +83,12 @@
     }
 
     #calendar table {
-        width: 100%;
-        border-collapse: collapse;
+      width: 100%;
+      border-collapse: collapse;
     }
 
     #calendar td:hover {
-        background-color: #f0f0f0;
+      background-color: #f0f0f0;
     }
 
     #calendar td.current-day, #calendar th.current-day {
@@ -118,7 +103,7 @@
 
     #calendar th.weekend, #calendar td.weekend {
       background-color: #cecece;
-      color: white;
+      color: rgb(0, 0, 0);
       font-weight: bold;
     }
 
@@ -136,24 +121,25 @@
     }
 
     #calendar th, #calendar td {
-        text-align: center;
-        width: 10%;
-        height: 50px;
-        border: 2px solid #ddd;
+      text-align: center;
+      width: 10%;
+      height: 50px;
+      border: 2px solid #ddd;
     }
   </style>
   <title>Eingeloggt</title>
 </head>
 <body>
-  <nav class="navbar">
-    <ul>
-      <li><button onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Termin buchen</button></li>
-      <li><button onclick="document.getElementById('id03').style.display='block'" style="width:auto;">Mitarbeiter erstellen</button></li>
-      <li><button onclick="document.getElementById('id04').style.display='block'" style="width:auto;">Mitarbeiter löschen</button></li>
-      <li><button onclick="document.getElementById('id05').style.display='block'" style="width:auto;">Logout</button></li>
-    </ul>
-  </nav>
-  <div id="calendar"></div>
+<nav class="navbar">
+  <ul>
+    <li><button onclick="window.location.href='Toolbar.html'">Home</button></li>
+    <li><button onclick="window.location.href='mitarbeiter_erstellen.html'">Mitarbeiter erstellen</button></li>
+    <li><button onclick="window.location.href='mitarbeiter_loeschen.html'">Mitarbeiter löschen</button></li>
+    <li><button onclick="window.location.href='pin_zurücksetzen.html'">PIN zurücksetzen</button></li>
+    <li><button onclick="window.location.href='logout.html'">Logout</button></li>
+  </ul>
+</nav>
+<div id="calendar"></div>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
 
@@ -163,7 +149,7 @@
       const monthNames = [
             "Januar", "Februar", "März", "April", "Mai", "Juni",
             "Juli", "August", "September", "Oktober", "November", "Dezember"
-        ];
+          ];
 
       // Globale Variablen
       let currentWeekStart = 1;
@@ -174,22 +160,25 @@
       let currentDay = currentDate.getDate();
       let appointments = [];
       let displayedDay;
+      let currentSingleViewDiv;
 
 
       // ---Hier können Termine eingespielt werden---
       // Schema: Date(Jahr, Monat - 1, Tag) | Stunde Beginn | Minute Beginn | Stunde Ende | Minute Ende | Name
-      addAppointment(new Date(2023, 10, 15), 13, 0, 15, 30, 'Max Mustermann');
-      addAppointment(new Date(2023, 10, 15), 15, 0, 15, 30, 'Marie Musterfrau');
-      addAppointment(new Date(2023, 10, 15), 17, 30, 18, 30, 'Ryan Gossling');
-      //addAppointment(new Date(2023, 10, 15), 15, 30, 18, 0, 'Katy Perry');
+      addAppointment(new Date(currentYear, currentMonth, currentDay + 1), 13, 0, 15, 30, 'Max Mustermann');
+      addAppointment(new Date(currentYear, currentMonth, currentDay), 15, 0, 15, 30, 'Marie Musterfrau');
+      addAppointment(new Date(currentYear, currentMonth, currentDay), 17, 30, 18, 30, 'Ryan Gosling');
 
       // Erstellt die Ansicht für den gesamten Monat
       function generateMonthView(year, month) {
+
+        closeSingleView();
+
         currentView = 'month';
         const firstDay = new Date(year, month, 1);
         const lastDay = new Date(year, month + 1, 0);
         const daysInMonth = lastDay.getDate();
-        const firstDayOfWeek = (firstDay.getDay() + 6) % 7;
+        const firstDayOfMonth = (firstDay.getDay() + 6) % 7;
 
         // Erstellt den Header
         // changeView() übergibt, welche Ansicht aktiv ist, damit andere Funktionen wie next() wissen, welche function ausgeführt werden muss
@@ -204,7 +193,8 @@
         
         // Die Wochentage (Sonntag wird grau markiert)
         let table = `<table>
-                        <tr>
+                        <tr> 
+                            <th>Kalenderwoche</th>
                             <th>Mo</th>
                             <th>Di</th>
                             <th>Mi</th>
@@ -223,7 +213,14 @@
             if (day > daysInMonth) {
                 break;
             }
-          table += "<tr>";
+            table += "<tr>";
+            if (i === 0) {
+              table += '<td><button onclick="changeToWeekView('
+              table += firstDayOfMonth;
+              table += ')">KW ';
+              table += getISOWeek(firstDay);
+              table += '</button></td>'
+            }
           }
 
           let cellClass = '';
@@ -234,7 +231,14 @@
 
           // Erstellt die richtige Reihenfolge und färbt die Tage nach aktuellen Tag und Sonntag
           // Der aktuelle Tag überschreibt die cellClass, auch wenn es ein Sonntag ist
-          if (i >= firstDayOfWeek && day <= daysInMonth) {
+          if (i >= firstDayOfMonth && day <= daysInMonth) {
+            if (i % 7 === 0 && i >= 7) {
+              table += '<td><button onclick="changeToWeekView('
+              table += firstDayOfMonth + i;
+              table += ')">KW ';
+              table += getISOWeek(firstDay) + i % 6;
+              table += '</button></td>'
+            }
             if (day === currentDate.getDate() && currentMonth === currentDate.getMonth()) {
               cellClass = '';
               table += `<td class="${cellClass}${day === currentDate.getDate() 
@@ -259,24 +263,20 @@
       }
 
       // Generiert die Wochenansicht (Unvollständig)
-      window.generateWeekView = function (year, month) {
+      window.generateWeekView = function (year, month, day) {
+
+        closeSingleView();
+
         currentView = 'week';
         const firstDay = new Date(year, month, 1);
         const lastDay = new Date(year, month + 1, 0);
-        const daysInMonth = lastDay.getDate();
-        const firstDayOfWeek = (firstDay.getDay() + 6) % 7;
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const currentWeekDay = new Date(year, month, day).getDay() % 7;
+        const currentISOWeek = getISOWeek(currentDate);
 
-        // Berechnet die aktuelle Kalenderwoche
-        const getISOWeek = function (date) {
-          const year = new Date(date.getFullYear(), 0, 4);
-          const days = Math.floor((date - year) / (24 * 60 * 60 * 1000)) + 1;
-          const week = Math.ceil(days / 7);
-          return week + 1;
-        };
-        
         // Gleicher Header, wie bei generateMonthView(), nur mit zusätzlicher Kalenderwoche
         const header = `<header>
-                            <span>${monthNames[month]} ${year} - KW ${getISOWeek(new Date(year, month, currentWeekStart))}</span>
+                            <span>${monthNames[month]} ${year} - KW ${getISOWeek(new Date(year, month, day))}</span>
                             <button onclick="next()">&#8250;</button>
                             <button onclick="prev()">&#8249;</button>
                             <button onclick="changeView('day')">Tag</button>
@@ -290,13 +290,13 @@
         let table = `<table>
                         <tr>
                           <th style="width: 8%">Zeit</th>
-                          <th class="${currentDate.getDay() === 1 ? 'current-day' : ''}">Mo</th>
-                          <th class="${currentDate.getDay() === 2 ? 'current-day' : ''}">Di</th>
-                          <th class="${currentDate.getDay() === 3 ? 'current-day' : ''}">Mi</th>
-                          <th class="${currentDate.getDay() === 4 ? 'current-day' : ''}">Do</th>
-                          <th class="${currentDate.getDay() === 5 ? 'current-day' : ''}">Fr</th>
-                          <th class="${currentDate.getDay() === 6 ? 'current-day' : ''}">Sa</th>
-                          <th class="${currentDate.getDay() === 0 ? 'current-day' : 'weekend'}">So</th>
+                          <th class="${currentDate.getDay() === 1 ? 'current-day' : ''}"><button onclick="changeToDayView(${day - currentWeekDay + 1})">Mo</button></th>
+                          <th class="${currentDate.getDay() === 2 ? 'current-day' : ''}"><button onclick="changeToDayView(${day - currentWeekDay + 2})">Di</button></th>
+                          <th class="${currentDate.getDay() === 3 ? 'current-day' : ''}"><button onclick="changeToDayView(${day - currentWeekDay + 3})">Mi</button></th>
+                          <th class="${currentDate.getDay() === 4 ? 'current-day' : ''}"><button onclick="changeToDayView(${day - currentWeekDay + 4})">Do</button></th>
+                          <th class="${currentDate.getDay() === 5 ? 'current-day' : ''}"><button onclick="changeToDayView(${day - currentWeekDay + 5})">Fr</button></th>
+                          <th class="${currentDate.getDay() === 6 ? 'current-day' : ''}"><button onclick="changeToDayView(${day - currentWeekDay + 6})">Sa</button></th>
+                          <th class="${currentDate.getDay() === 7 ? 'current-day' : 'weekend'}"><button onclick="changeToDayView(${day - currentWeekDay + 7})">So</button></th>
                         </tr>`;
         
         // Erstellt die Wochenansicht von 7 bis 20 Uhr
@@ -316,8 +316,11 @@
         calendar.innerHTML = header + table;
       }
 
-        // Generiert die Tagesansicht
+      // Generiert die Tagesansicht
       window.generateDayView = function (year, month, day) {
+
+        closeSingleView();
+
         currentView = 'day';
         displayedDay = day;
         
@@ -362,7 +365,7 @@
             if (startTime === '') {
               appointmentHTML += '<td style="width: auto"></td>';
             } else {
-              appointmentHTML += `<td style="width: auto">${appointmentName}<br>${startTime} - ${endTime}</td>`;
+              appointmentHTML += `<td style="width: auto"><button onclick="singleView('${appointmentName}', '${startTime}', '${endTime}')">${appointmentName}<br>${startTime} - ${endTime}</button></td>`;
             }
           }
           
@@ -382,7 +385,133 @@
         table += "</table>";
 
         calendar.innerHTML = header + table;
+      }
+
+      // Berechnet die Kalenderwoche
+      window.getISOWeek = function (date) {
+        const currentDate = new Date(date);
+        const dayOfWeek = currentDate.getDay();
+        currentDate.setDate(currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1));
+        currentDate.setDate(currentDate.getDate() + 4 - (currentDate.getDay() || 7));
+        const daysPassed = Math.floor((currentDate - new Date(currentDate.getFullYear(), 0, 1)) / 86400000);
+        const isoWeek = Math.ceil((daysPassed + 1) / 7);
+        return isoWeek;
+      }
+
+      window.singleView = function (name, startTime, endTime) {
+        const singleViewDiv = document.createElement('div');
+
+        closeSingleView();
+
+        singleViewDiv.id = 'single-view';
+
+        singleViewDiv.style.position = 'fixed';
+        singleViewDiv.style.top = '50%';
+        singleViewDiv.style.left = '50%';
+        singleViewDiv.style.transform = 'translate(-50%, -50%)';
+        singleViewDiv.style.width = '25%';
+        singleViewDiv.style.height = '30%';
+        singleViewDiv.style.border = '2px solid #000';
+        singleViewDiv.style.display = 'flex';
+        singleViewDiv.style.alignItems = 'center';
+        singleViewDiv.style.justifyContent = 'center';
+        singleViewDiv.style.background = 'white';
+
+        singleViewDiv.innerHTML = `
+          <div style="position: absolute; top: 10px; right: 10px">
+            <button style="background-color: #ec5353; color: white; padding: 10px; border: transparent; border-radius: 5px" onclick="closeSingleView()">X</button>
+          </div>
+          <div style="position: absolute; bottom: 3%; right: 2%">
+            <button style="background-color: #ec5353; color: white; padding: 20px 40px; border: transparent; border-radius: 5px" onclick="confirmCancellation()">Stornieren</button>
+          </div>
+          <div style="text-align: center; background-color: white; padding: 20px;">
+            <p>Kunde: ${name}<br>Mitarbeiter: Mitarbeiter 1<br>Leistung: Trockenhaarschnitt<br>Zeit: ${startTime} - ${endTime}<br>Telefon: 0171 9664510<br>E-Mail: test@gmail.com</p>
+          </div>`;
+
+        document.body.appendChild(singleViewDiv);
+
+        currentSingleViewDiv = singleViewDiv;
+      }
+
+      window.closeSingleView = function () {
+        if (currentSingleViewDiv) {
+          currentSingleViewDiv.remove();
+          currentSingleViewDiv = null;
+        }
+        let replacementDiv = document.getElementById('replacementDiv');
+        if (replacementDiv) {
+            replacementDiv.remove();
+            replacementDiv = null;
+        }
+        let confirmedDiv = document.getElementById('confirmedDiv');
+        if (confirmedDiv) {
+          confirmedDiv.remove()
+          confirmedDiv = null;
+        }
       };
+
+      window.confirmCancellation = function () {
+        const replacementDiv = document.createElement('div');
+        replacementDiv.id = 'replacementDiv';
+        replacementDiv.style.position = 'fixed';
+        replacementDiv.style.top = '50%';
+        replacementDiv.style.left = '50%';
+        replacementDiv.style.transform = 'translate(-50%, -50%)';
+        replacementDiv.style.width = '25%';
+        replacementDiv.style.height = '30%';
+        replacementDiv.style.border = '2px solid #000';
+        replacementDiv.style.display = 'flex';
+        replacementDiv.style.alignItems = 'center';
+        replacementDiv.style.justifyContent = 'center';
+        replacementDiv.style.background = 'white';
+        replacementDiv.innerHTML = `
+          <div style="text-align: center; background-color: white; padding: 20px;">
+            <p>Wollen Sie den Termin wirklich stornieren?</p>
+          </div>
+          <div style="position: absolute; top: 10px; right: 10px">
+            <button style="background-color: #ec5353; color: white; padding: 10px; border: transparent; border-radius: 5px" onclick="closeSingleView()">X</button>
+          </div>
+          <div style="position: absolute; bottom: 3%; right: 2%">
+            <button style="background-color: #04AA6D; color: white; padding: 20px 40px; border: transparent; border-radius: 5px" onclick="cancellationConfirmed()">Ja</button>
+            <button style="background-color: #ec5353; color: white; padding: 20px 40px; border: transparent; border-radius: 5px" onclick="closeSingleView()">Nein</button>
+          </div>
+          `;
+      
+        if (currentSingleViewDiv) {
+          currentSingleViewDiv.replaceWith(replacementDiv);
+          currentSingleViewDiv = null;
+        }
+      }
+
+      window.cancellationConfirmed = function () {
+        const confirmedDiv = document.createElement('div');
+        confirmedDiv.id = 'confirmedDiv';
+        confirmedDiv.style.position = 'fixed';
+        confirmedDiv.style.top = '50%';
+        confirmedDiv.style.left = '50%';
+        confirmedDiv.style.transform = 'translate(-50%, -50%)';
+        confirmedDiv.style.width = '25%';
+        confirmedDiv.style.height = '30%';
+        confirmedDiv.style.border = '2px solid #000';
+        confirmedDiv.style.display = 'flex';
+        confirmedDiv.style.alignItems = 'center';
+        confirmedDiv.style.justifyContent = 'center';
+        confirmedDiv.style.background = 'white';
+        confirmedDiv.innerHTML = `
+          <div style="text-align: center; background-color: white; padding: 20px;">
+            <p>Der Termin wurde erfolgreich entfernt</p>
+          </div>
+          <div style="position: absolute; top: 10px; right: 10px">
+            <button style="background-color: #ec5353; color: white; padding: 10px; border: transparent; border-radius: 5px" onclick="closeSingleView()">X</button>
+          </div>`;
+        
+        if (replacementDiv) {
+          replacementDiv.replaceWith(confirmedDiv);
+        }
+      };
+
+
+
 
       // Schaut, welche Ansicht aktiv ist und führt die jeweilige function() aus
       window.next = function () {
@@ -393,7 +522,7 @@
         } else if (currentView === 'day') {
           nextDay(currentYear, currentMonth, displayedDay);
         }
-      };
+      }
 
       // Schaut, welche Ansicht aktiv ist und führt die jeweilige function() aus
       window.prev = function () {
@@ -404,66 +533,59 @@
         } else if (currentView === 'day') {
           prevDay(currentYear, currentMonth, displayedDay);
         }
-      };
+      }
 
       // Geht einen Monat zurück
       window.prevMonth = function () {
-          currentYear = (currentMonth === 0) ? currentYear - 1 : currentYear;
-          currentMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
-          generateMonthView(currentYear, currentMonth);
+        currentYear = (currentMonth === 0) ? currentYear - 1 : currentYear;
+        currentMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
+        generateMonthView(currentYear, currentMonth);
       }
 
       // Geht einen Monat vor
       window.nextMonth = function () {
-          currentYear = (currentMonth === 11) ? currentYear + 1 : currentYear;
-          currentMonth = (currentMonth + 1) % 12;
-          generateMonthView(currentYear, currentMonth);
+        currentYear = (currentMonth === 11) ? currentYear + 1 : currentYear;
+        currentMonth = (currentMonth + 1) % 12;
+        generateMonthView(currentYear, currentMonth);
       }
 
       // Geht eine Woche vor
       window.nextWeek = function () {
         const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        const daysInNextMonth = new Date(currentYear, currentMonth + 2, 0).getDate();
         const lastDayOfWeek = (new Date(currentYear, currentMonth, daysInMonth).getDay() + 6) % 7;
-        const totalDays = daysInMonth + lastDayOfWeek;
-          
-        if (currentWeekStart + 7 <= totalDays) {
-            currentWeekStart += 7;
-        } else {
-            currentMonth = (currentMonth + 1) % 12;
-            currentYear = (currentMonth === 0) ? currentYear + 1 : currentYear;
-            currentWeekStart = 1;
+
+        currentDay += 7;
+
+        if (currentDay > daysInMonth) {
+          currentMonth = (currentMonth + 1) % 12;
+          currentYear = (currentMonth === 0) ? currentYear + 1 : currentYear;
+          currentDay = currentDay % daysInNextMonth;
         }
-      
-        generateWeekView(currentYear, currentMonth);
+        generateWeekView(currentYear, currentMonth, currentDay);
       }
 
       // Geht eine Woche zurück
       window.prevWeek = function () {
         const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
         const lastDayOfWeek = (new Date(currentYear, currentMonth, daysInMonth).getDay() + 6) % 7;
-        const totalDays = daysInMonth + lastDayOfWeek;
-
-        if (currentWeekStart - 7 >= 1) {
-          currentWeekStart -= 7;
+      
+        if (currentDay - 7 >= 1) {
+          currentDay -= 7;
         } else {
           currentMonth = currentMonth === 0 ? 11 : currentMonth - 1;
           currentYear = currentMonth === 11 ? currentYear - 1 : currentYear;
           const daysInPrevMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-          currentWeekStart = daysInPrevMonth - lastDayOfWeek;
+          currentDay = daysInPrevMonth - lastDayOfWeek;
         }
-        generateWeekView(currentYear, currentMonth);
+        generateWeekView(currentYear, currentMonth, currentDay);
       }
 
       // Geht einen Tag vor
       window.nextDay = function (currentYear, currentMonth, currentDisplayedDay) {
         const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        currentDisplayedDay++;
 
-        if (currentDisplayedDay < daysInMonth) {
-          currentDisplayedDay++;
-        } else {
-          currentDisplayedDay = 1;
-          nextMonth();
-        }
         generateDayView(currentYear, currentMonth, currentDisplayedDay);
       };
 
@@ -486,7 +608,7 @@
         currentMonth = currentDate.getMonth();
         currentDay = currentDate.getDate();
         if (view === 'week') {
-          generateWeekView(currentYear, currentMonth);
+          generateWeekView(currentYear, currentMonth, currentDay);
         } else if (view === 'day') {
           generateDayView(currentYear, currentMonth, currentDay);
         } else if (view === 'month') {
@@ -535,8 +657,14 @@
         return (minutes < 10 ? '0' : '') + minutes;
       }
 
+      // Übergibt die Daten, um zur Tagesansicht zu wechseln
       window.changeToDayView = function (day) {
         generateDayView(currentYear, currentMonth, day);
+      }
+
+      // Übergibt die Daten, um zu Wochenansicht zu wechseln
+      window.changeToWeekView = function (day) {
+        generateWeekView(currentYear, currentMonth, day);
       }
 
       // Erstellt die Tagesansicht als Standart
