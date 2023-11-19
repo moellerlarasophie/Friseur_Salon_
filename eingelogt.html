@@ -135,6 +135,13 @@ float: left;
 .navbar button:hover {
       background-color: #038153;
     }
+ h1{
+font-size: 24px;
+margin: 20px auto 10px;
+
+
+
+
 
 </style>
   <title>eingelogt</title>
@@ -145,20 +152,21 @@ float: left;
     <li><button onclick="window.location.href='Terminübersicht.html'" style="width:auto;">termin buchen</button>
     <li><button onclick="window.location.href='Mitarbeiter erstellen.html'" style="width:auto;">Mitarbeiter erstellen</button></li>
     <li><button onclick="window.location.href='Mitarbeiter Profil löschen.html'" style="width:auto;">Mitarbeiter löschen</button></li>
-    <li><button onclick="document.getElementById('id03').style.display='block'" style="width:auto;">logout</button></li>
+    <li><button onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Abmelden</button></li>
   </ul>
 </nav>
 
-<div id="id03" class="modal">
+<div id="id02" class="modal">
 
   <from class="modal-content animate" action="Toolbar.html" method="post">
     <dif class="container">
 
-      <button type="button" onclick=">Aus logen</button>
+      <h1>Wollen sie sich wirklich Abmelden?</h1>
+      <button type="button" onclick="window.location.href='Toolbar.html'" style="white:auto">Abmelden</button>
 
 
       <div class="container" style="background-color:#f1f1f1">
-        <button type="button" onclick="document.getElementById('id03').style.display='none'" class="cancelbtn">Abbrechen</button>
+        <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Abbrechen</button>
       </div>
     </dif>
   </from>

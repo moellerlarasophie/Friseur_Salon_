@@ -155,7 +155,7 @@ span.psw {
   <ul>
     <li><button onclick="window.location.href='Terminübersicht.html'" style="width:auto;">Termin buchen</button>
     <li><button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">login</button></li>
-    <li><button onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Pin Zurücksetzen </button></li>
+    <li><button onclick="window.location.href='Pin zurücksetzen.html'" style="width:auto;">Pin Zurücksetzen </button></li>
   </ul>
 </nav>
 
@@ -181,27 +181,7 @@ span.psw {
 
 
 
-<div id="id02" class="modal">
 
-  <from class="modal-content animate" action="/action_page.php" method="post">
-    <dif class="container">
-
-    <input type="text" placeholder="Benutzernamen eingeben" name="uname" required>
-
-    <input type="password" placeholder="Neues Passwort eingeben" name="psw" required>
-
-
-    <input type="password" placeholder="Neues Passwort wiederholen" name="psw" required>
-
-    <button type="submit">Passwort zurücksetzen</button>
-
-
-     <div class="container" style="background-color:#f1f1f1">
-        <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
-     </div>
-    </dif>
-  </from>
-</div>
 
 <script>
 // Get the modal
