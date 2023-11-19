@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
   <style>
 body {font-family: Arial, Helvetica, sans-serif;}
 
@@ -113,23 +113,36 @@ span.psw {
   }
 }
 .navbar ul{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     list-style-type: none;
     background-color: #04AA6D;
-    padding: opx;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
     overflow: hidden;
 }
 .navbar button{
   background-color: #04AA6D;
   color: white;
+  width: auto;
   padding: 10px 20px;
   margin: 8px 0;
   border: none;
   cursor: pointer;
-  width: 100%;
+  display: block;
+  border-radius: 5xp;
+  font-size: 16px;
+
 }
 .navbar li{
     float: left;
+}
+
+.navbar button:hover {
+  background-color: #038153;
+  }
 
 </style>
 </head>
@@ -140,14 +153,15 @@ span.psw {
 
 <nav class="navbar">
   <ul>
-    <li><button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">termin buchen</button>
+    <li><button onclick="window.location.href='Terminübersicht.html'" style="width:auto;">Termin buchen</button>
     <li><button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">login</button></li>
+    <li><button onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Pin Zurücksetzen </button></li>
   </ul>
 </nav>
 
 <div id="id01" class="modal">
 
-  <form class="modal-content animate" action="/action_page.php" method="post">
+  <form class="modal-content animate" action="eingelogt.html" method="post">
 
     <div class="container">
       <label for="uname"><b>Benutzername</b></label>
@@ -163,6 +177,30 @@ span.psw {
       <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
     </div>
   </form>
+</div>
+
+
+
+<div id="id02" class="modal">
+
+  <from class="modal-content animate" action="/action_page.php" method="post">
+    <dif class="container">
+
+    <input type="text" placeholder="Benutzernamen eingeben" name="uname" required>
+
+    <input type="password" placeholder="Neues Passwort eingeben" name="psw" required>
+
+
+    <input type="password" placeholder="Neues Passwort wiederholen" name="psw" required>
+
+    <button type="submit">Passwort zurücksetzen</button>
+
+
+     <div class="container" style="background-color:#f1f1f1">
+        <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
+     </div>
+    </dif>
+  </from>
 </div>
 
 <script>

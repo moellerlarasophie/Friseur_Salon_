@@ -125,10 +125,16 @@ padding: 10px 20px;
 margin: 8px 0;
 border: none;
 cursor: pointer;
-width: 100%;
+display:block;
+border-radius: 5px;
+font-size:16px;
 }
 .navbar li{
 float: left;
+}
+.navbar button:hover {
+      background-color: #038153;
+    }
 
 </style>
   <title>eingelogt</title>
@@ -136,11 +142,27 @@ float: left;
 <body>
 <nav class="navbar">
   <ul>
-    <li><button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">termin buchen</button>
-    <li><button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Mitarbeiter erstellen</button></li>
-    <li><button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Mitarbeiter löschen</button></li>
-    <li><button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">logout</button></li>
+    <li><button onclick="window.location.href='Terminübersicht.html'" style="width:auto;">termin buchen</button>
+    <li><button onclick="window.location.href='Mitarbeiter erstellen.html'" style="width:auto;">Mitarbeiter erstellen</button></li>
+    <li><button onclick="window.location.href='Mitarbeiter Profil löschen.html'" style="width:auto;">Mitarbeiter löschen</button></li>
+    <li><button onclick="document.getElementById('id03').style.display='block'" style="width:auto;">logout</button></li>
   </ul>
 </nav>
+
+<div id="id03" class="modal">
+
+  <from class="modal-content animate" action="Toolbar.html" method="post">
+    <dif class="container">
+
+      <button type="button" onclick=">Aus logen</button>
+
+
+      <div class="container" style="background-color:#f1f1f1">
+        <button type="button" onclick="document.getElementById('id03').style.display='none'" class="cancelbtn">Abbrechen</button>
+      </div>
+    </dif>
+  </from>
+</div>
+
 </body>
 </html>
